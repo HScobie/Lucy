@@ -1,0 +1,10 @@
+#$ # Check your email every five minutes.
+#$ while sleep 300
+#> do kmail --check
+#> done
+
+#Script to change wallpaper.
+# while true; do
+#      nitrogen --set-zoom --random ~/Bilder/Backgrounds
+#      sleep 5m
+#   done

@@ -1,0 +1,79 @@
+conky.config = {
+
+--Text color:
+	default_color = 'white',
+	color1 = '0AB1FF',
+	color2 = 'DD4814',
+	color3 = 'FF0000',
+	color4 = '8B0000',
+	color5 = '800000',
+	color6 = 'FF4500',
+
+--Background color:
+--	own_window_colour = 'black',
+
+    background = true, 							-- forked to background
+
+--Background transparency (0..255) - 0=transparent; 255=solid background
+	own_window_argb_value = 150,
+--	own_window_transparent = true,
+ 
+	own_window_argb_visual = true,
+	own_window = true,
+	own_window_type = 'normal',
+	own_window_hints = 'undecorated,sticky,skip_taskbar,skip_pager,below',
+
+	draw_shades = false,
+	draw_outline = false,
+	draw_borders = false,
+
+	use_xft = true,
+	xftalpha = 1,
+
+	no_buffers = true,
+	double_buffer = true,
+	text_buffer_size = 2048,
+
+	short_units = true,
+
+	update_interval = 1,
+
+	alignment = 'top_right',
+	gap_x = 15,
+	gap_y = 10,
+
+	maximum_width = 260,
+
+	default_bar_height = 9,
+	default_bar_width = 110,
+	draw_graph_borders = false,
+}
+
+
+conky.text = [[
+${font Stonehenge-Bold:size=34}${color3}$alignr ${time %H:%M}$font
+${font Stonehenge-Bold:size=13}${color3}$alignr${time %A, %d.%B %Y}
+
+${color3}${execi 11003 whoami}@${nodename} ${alignr}${color}uptime: ${color6}${uptime_short}
+$alignr${color}Kernel: ${color6}${execi 12000 uname -r | cut -d "-" -f 1}
+
+${if_existing /proc/net/route enp1s0}${color}Ethernet IP: ${alignr}${color1}${addr enp1s0}
+${voffset 10}${color}Down: ${color3}${goto 57}${downspeed enp1s0}/s ${alignr} ${color}Up: ${color1}${upspeed enp1s0}/s
+${color2}${downspeedgraph enp1s0 24,110 -t} ${alignr}${upspeedgraph enp1s0 24,110 -t} ${color1}
+Total: ${totaldown enp1s0}  ${alignr} Total: ${totalup enp1s0}${else}${color}WLAN:${color1}$alignr${wireless_essid wlp2s0}${font Stonehenge-Bold:size=9}$alignr(${wireless_bitrate wlp2s0})${font Stonehenge-Bold:size=11}
+${color2}${wireless_link_bar 9, 260 wlp2s0}
+${voffset 10}${color}Down: ${color1}${downspeed wlp2s0}/s ${alignr} ${color}Up: ${color1}${upspeed wlp2s0}/s
+${color2}${downspeedgraph wlp2s0 24,110 -t} ${alignr}${upspeedgraph wlp2s0 24,110 -t} ${color1}
+Total: ${totaldown wlp2s0}  ${alignr} Total: ${totalup wlp2s0}${endif}
+
+
+
+${font Stonehenge:size=11}${color}CPU ${goto 38}1:${color1} ${goto 57}${font Stonehenge:size=9}${execi 30 sensors | grep 'Core 0:' | cut -c16-17}°C ${goto 96}${color2}${cpubar cpu1}  ${alignr}${color1}${freq_g 1} GHz
+ ${goto 96}${color2}${cpubar cpu2} ${alignr}${color1}${freq_g 2} GHz
+${font Stonehenge:size=11}${color}CPU ${goto 38}2:${color1} ${goto 57}${font Stonehenge:size=9}${execi 31 sensors | grep 'Core 1:' | cut -c16-17}°C ${goto 96}${color2}${cpubar cpu3}  ${alignr}${color1}${freq_g 3} GHz
+ ${goto 96}${color2}${cpubar cpu4} ${alignr}${color1}${freq_g 4} GHz
+${font Stonehenge:size=11}${color}CPU ${goto 38}3:${color1} ${goto 57}${font Stonehenge:size=9}${execi 32 sensors | grep 'Core 2:' | cut -c16-17}°C ${goto 96}${color2}${cpubar cpu5}  ${alignr}${color1}${freq_g 5} GHz
+
+
+]]
+
